@@ -1,15 +1,11 @@
-// Write a script for any topic the user types, via the Cloudflare Worker that
-// already fronts Gemini for this project (app chẩn bệnh lan + classify.py).
-// No new API key, no new billing.
+// Write a script for any topic the user types.
 //
-// Two things measured while testing, both matter:
-//  - gemini-3.6-flash spends its output budget on thinking and gets cut off
-//    mid-JSON without any error. gemini-2.5-flash returns the whole thing.
-//  - left alone the model writes ~55-char tip titles, which overflow the
-//    caption frame now that desc is gone. The prompt caps them at 35.
-
-const WORKER = "https://orchid-diagnose.trananhthy.workers.dev";
-const MODEL = "gemini-2.5-flash";
+// AI backend removed (was Gemini via a Cloudflare Worker) — plug in a
+// replacement provider below and point ask() at it.
+//
+// Note kept from testing: left alone the model writes ~55-char tip titles,
+// which overflow the caption frame now that desc is gone. The prompt caps
+// them at 35.
 
 export interface Script {
   titleText: string;
@@ -111,34 +107,10 @@ function check(v: unknown, tipCount: number): Script {
 }
 
 async function ask(topic: string, tipCount: number, line?: string): Promise<Script> {
-  const res = await fetch(WORKER, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      model: MODEL,
-      max_tokens: 3000,
-      messages: [{ role: "user", content: prompt(topic, tipCount, line) }],
-    }),
-    signal: AbortSignal.timeout(90_000),
-  });
-
-  if (res.status === 503) throw new Error("AI đang quá tải hoặc hết hạn mức, thử lại sau ít phút.");
-  if (!res.ok) throw new Error(`AI trả về lỗi ${res.status}.`);
-
-  const data = (await res.json()) as { content?: Array<{ text?: string }> };
-  const text = data.content?.[0]?.text ?? "";
-
-  // Gemini sometimes wraps the JSON in a ```json fence despite being told not to.
-  const m = text.match(/\{[\s\S]*\}/);
-  if (!m) throw new Error("AI không trả về kịch bản đọc được.");
-
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(m[0]);
-  } catch {
-    throw new Error("Kịch bản AI trả về bị lỗi định dạng.");
-  }
-  return check(parsed, tipCount);
+  // No AI backend configured. prompt(topic, tipCount, line) still builds the
+  // instruction text — wire it into a provider's chat endpoint here, then feed
+  // the raw text response through check() to validate and shape the result.
+  throw new Error("Chưa cấu hình AI viết kịch bản.");
 }
 
 // One retry: the failure mode is a malformed or wrong-length answer, and asking

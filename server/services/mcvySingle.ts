@@ -85,11 +85,8 @@ export function getSingleVideo(slug: string): { frames: number; seconds: number 
 
 // --- AI viết lời thoại cho MC Vy ---
 //
-// Dùng lại Worker Gemini của dự án (không key mới). Bài học đã ghi trong aiScript.ts:
-// gemini-3.6-flash cắt JSON giữa câu mà không báo lỗi, nên dùng 2.5-flash.
-
-const WORKER = "https://orchid-diagnose.trananhthy.workers.dev";
-const MODEL = "gemini-2.5-flash";
+// AI backend removed (was Gemini via a Cloudflare Worker) — plug in a
+// replacement provider below and point ask() at it.
 
 export interface McScene {
   /** Câu MC Vy đọc. */
