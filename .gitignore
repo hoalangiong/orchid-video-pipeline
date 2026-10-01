@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+
+# Build/render artifacts (video outputs, must NOT be pushed)
+out/
+out_sach/
+.web-app-bundle/
+
+# Media assets (clips, audio, images - too large for git)
+public/
+public-lite/
+public_slim/
+
+# Remotion cache
+.remotion/
+
+# Temp/scratch directories
+_captiontmp/
+_frmchk/
+_soi/
+_wm_check/
+__pycache__/
+
+# Logs
+*.log
+
+# Env/secrets
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db

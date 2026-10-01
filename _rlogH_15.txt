@@ -1,0 +1,9 @@
+Bundling ...
+Rendering 2531 frames (hardened) ...
+  0%
+  20%
+  40%
+  60%
+  80%
+  100%
+DONE -> C:\Users\Dell Precision 5560\.openclaw\remotion-video\out\226-haila-kichre.mp4

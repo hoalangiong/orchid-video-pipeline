@@ -1,0 +1,10 @@
+Bundling ...
+  bundle 100%
+Rendering 2511 frames ...
+  0%
+  20%
+  40%
+  60%
+  80%
+  100%
+DONE -> C:\Users\Dell Precision 5560\.openclaw\remotion-video\out\229-haila-muamua.mp4

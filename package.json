@@ -1,0 +1,27 @@
+{
+  "name": "remotion-video",
+  "version": "1.0.0",
+  "description": "Video editing with Remotion",
+  "scripts": {
+    "dev": "remotion studio",
+    "render": "remotion render",
+    "upgrade": "remotion upgrade",
+    "web": "tsx server/index.ts"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.490",
+    "csv-parse": "^7.0.2",
+    "express": "^5.2.1",
+    "multer": "^2.4.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "remotion": "4.0.490"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/multer": "^2.2.0",
+    "@types/react": "19.0.0",
+    "tsx": "^4.23.13",
+    "typescript": "5.8.2"
+  }
+}

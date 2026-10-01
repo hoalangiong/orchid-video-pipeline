@@ -1,0 +1,19 @@
+Bundling ...
+  bundle 100%
+Rendering 2531 frames ...
+  0%
+  20%
+  40%
+  60%
+  80%
+FATAL: Error: Page crashed!
+    at #onTargetCrashed (file:///C:/Users/Dell%20Precision%205560/.openclaw/remotion-video/node_modules/@remotion/renderer/dist/esm/index.mjs:3568:24)
+    at file:///C:/Users/Dell%20Precision%205560/.openclaw/remotion-video/node_modules/@remotion/renderer/dist/esm/index.mjs:3492:35
+    at file:///C:/Users/Dell%20Precision%205560/.openclaw/remotion-video/node_modules/@remotion/renderer/dist/esm/index.mjs:1603:9
+    at Array.forEach (<anonymous>)
+    at Object.emit (file:///C:/Users/Dell%20Precision%205560/.openclaw/remotion-video/node_modules/@remotion/renderer/dist/esm/index.mjs:1602:38)
+    at CDPSession.emit (file:///C:/Users/Dell%20Precision%205560/.openclaw/remotion-video/node_modules/@remotion/renderer/dist/esm/index.mjs:1632:18)
+    at CDPSession._onMessage (file:///C:/Users/Dell%20Precision%205560/.openclaw/remotion-video/node_modules/@remotion/renderer/dist/esm/index.mjs:1853:12)
+    at #onMessage (file:///C:/Users/Dell%20Precision%205560/.openclaw/remotion-video/node_modules/@remotion/renderer/dist/esm/index.mjs:1744:17)
+    at WebSocket.<anonymous> (file:///C:/Users/Dell%20Precision%205560/.openclaw/remotion-video/node_modules/@remotion/renderer/dist/esm/index.mjs:3868:24)
+    at callListener (C:\Users\Dell Precision 5560\.openclaw\remotion-video\node_modules\ws\lib\event-target.js:290:14)

@@ -1,0 +1,15 @@
+Bundling ...
+Rendering 2489 frames (hardened) ...
+  0%
+  20%
+  40%
+  60%
+  80%
+[33mThe browser crashed while rendering frame 2180, retrying 1 more times. Learn more about this error under https://www.remotion.dev/docs/target-closed[39m
+Killed previous browser and making new one
+Made new browser
+[33mThe browser crashed while rendering frame 2482, retrying 1 more times. Learn more about this error under https://www.remotion.dev/docs/target-closed[39m
+Killed previous browser and making new one
+Made new browser
+  100%
+DONE -> C:\Users\Dell Precision 5560\.openclaw\remotion-video\out\224-haila-giathe.mp4

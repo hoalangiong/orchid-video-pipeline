@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tạo Video Hoa Lan</title>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body x-data="orchidApp()" x-init="init()">
+
+  <!-- Header -->
+  <header class="header">
+    <h1>🌸 Tạo Video Hoa Lan</h1>
+    <p class="subtitle">Chọn chủ đề → Tạo video TikTok tự động</p>
+  </header>
+
+  <!-- Navigation tabs -->
+  <nav class="tabs">
+    <button :class="{ active: tab === 'home' }" @click="tab = 'home'">Trang chủ</button>
+    <button :class="{ active: tab === 'create' }" @click="tab = 'create'">Tạo video</button>
+    <button :class="{ active: tab === 'mcvy' }" @click="tab = 'mcvy'">MC Vy</button>
+    <button :class="{ active: tab === 'single' }" @click="tab = 'single'">1 video + MC Vy</button>
+    <button :class="{ active: tab === 'processing' }" @click="tab = 'processing'" x-show="jobId">Đang xử lý</button>
+    <button :class="{ active: tab === 'preview' }" @click="tab = 'preview'" x-show="outputUrl">Xem trước</button>
+  </nav>
+
+  <!-- Tab: Home -->
+  <main x-show="tab === 'home'" class="container">
+    <h2>Chủ đề video</h2>
+    <div class="loading" x-show="topicsLoading">Đang tải...</div>
+    <div class="grid" x-show="!topicsLoading">
+      <template x-for="topic in topics" :key="topic.cat">
+        <div class="card" @click="selectTopic(topic.cat)">
+          <h3 x-text="formatCat(topic.cat)"></h3>
+          <span class="count" x-text="topic.count + ' clips'"></span>
+        </div>
+      </template>
+    </div>
+  </main>
+
+  <!-- Tab: Create -->
+  <main x-show="tab === 'create'" class="container">
+    <!-- Sub-tabs -->
+    <div class="sub-tabs">
+      <button :class="{ active: createMode === 'template' }" @click="createMode = 'template'">Chọn kịch bản</button>
+      <button :class="{ active: createMode === 'auto' }" @click="createMode = 'auto'">Tự động từ chủ đề</button>
+    </div>
+
+    <!-- Template mode -->
+    <div x-show="createMode === 'template'">
+      <div class="search-box">
+        <input type="text" placeholder="Tìm kiếm kịch bản..." x-model="configSearch" @input="filterConfigs()">
+      </div>
+      <div class="loading" x-show="configsLoading">Đang tải kịch bản...</div>
+      <div class="config-list" x-show="!configsLoading">
+        <template x-for="cfg in filteredConfigs" :key="cfg.slug">
+          <div class="config-card" @click="selectConfig(cfg)">
+            <strong x-text="cfg.titleText.split('\n')[0]"></strong>
+            <small x-text="cfg.slug"></small>
+          </div>
+        </template>
+      </div>
+    </div>
+
+    <!-- Auto mode -->
+    <div x-show="createMode === 'auto'">
+      <p>Gõ chủ đề bất kỳ, AI viết kịch bản cho bạn sửa lại:</p>
+      <div class="ai-box">
+        <input type="text" x-model="aiTopic" placeholder="Ví dụ: lan bị nhện đỏ, cách thay chậu lan..."
+               @keydown.enter="aiGenerate()" :disabled="autoLoading">
+        <button class="btn-primary" @click="aiGenerate()" :disabled="autoLoading">
+          <span x-text="autoLoading === '__ai' ? '⏳ AI đang viết...' : '✨ Viết kịch bản'"></span>
+        </button>
+      </div>
+
+      <!-- Rotating the content line keeps the algorithm from reading one formula. -->
+      <div class="line-box">
+        <label>Tuyến nội dung:</label>
+        <div class="line-chips">
+          <template x-for="(l, key) in lines" :key="key">
+            <button :class="{ active: aiLine === key }"
+                    @click="aiLine = (aiLine === key ? '' : key)"
+                    x-text="l.name"></button>
+          </template>
+        </div>
+        <small x-show="aiLine" x-text="aiLine && lines[aiLine] ? lines[aiLine].brief : ''"></small>
+        <small x-show="!aiLine">Không chọn thì AI tự quyết. Đổi tuyến mỗi video để thuật toán không đọc vị một công thức.</small>
+      </div>
+
+      <!-- Clip folders copied into public/ by hand. Newest first, so the folder
+           just added is at the top. Only the AI path can use these: the script
+           must have exactly as many tips as the folder has tipN files. -->
+      <div class="line-box" x-show="footage.length">
+        <label>Hình lấy từ thư mục của bạn (tùy chọn):</label>
+        <div class="line-chips">
+          <button :class="{ active: !footageSlug }" @click="footageSlug = ''">Tự chọn (mặc định)</button>
+          <template x-for="f in filteredFootage()" :key="f.slug">
+            <button :class="{ active: footageSlug === f.slug }"
+                    @click="footageSlug = (footageSlug === f.slug ? '' : f.slug)"
+                    x-text="f.slug + ' (' + Math.min(f.tipCount, 4) + ' cảnh)'"></button>
+          </template>
+        </div>
+        <input type="text" class="footage-search" x-model="footageSearch"
+               placeholder="Tìm thư mục... (vd: hoanghau)">
+        <small x-show="footageSlug">Kịch bản sẽ viết đúng số cảnh của thư mục này. Chỉ dùng được với nút "Viết kịch bản".</small>
+        <small x-show="!footageSlug">Bỏ trống thì app tự lấy hình từ một tập cũ. Copy clip vào <code>public/clips_&lt;tên&gt;/</code> (title.mp4, tip1.mp4... outro.mp4) rồi tải lại trang là thấy ở đây.</small>
+      </div>
+
+      <p class="or-line">hoặc chọn chủ đề có kịch bản viết sẵn (nhanh, không cần AI):</p>
+      <div class="grid">
+        <template x-for="topic in topics" :key="topic.cat">
+          <div class="card" @click="autoGenerate(topic.cat)" :class="{ busy: autoLoading === topic.cat }">
+            <h3 x-text="formatCat(topic.cat)"></h3>
+            <span class="count" x-text="autoLoading === topic.cat ? '⏳ Đang viết...' : topic.count + ' clips'"></span>
+          </div>
+        </template>
+      </div>
+      <p class="error-box" x-show="errorText" x-text="errorText"></p>
+    </div>
+
+    <!-- Config editor (shown when config selected) -->
+    <div x-show="selectedConfig" class="editor">
+      <h3>Chỉnh sửa kịch bản</h3>
+
+      <p class="auto-note" x-show="autoNote" x-text="autoNote"></p>
+
+      <!-- Which hook holds the first 3 giây is not predictable, so AI writes three. -->
+      <div class="hook-picker" x-show="hooks.length > 1">
+        <label>Chọn hook mở đầu (3 phương án):</label>
+        <template x-for="(h, i) in hooks" :key="i">
+          <div class="hook-option" :class="{ active: editForm.titleText === h }" @click="applyHook(i)">
+            <span class="hook-tag" x-text="['Nỗi đau', 'Đối tượng', 'Kết quả'][i] || ('PA ' + (i+1))"></span>
+            <span class="hook-text" x-text="h"></span>
+          </div>
+        </template>
+        <small>Hook nào cũng dùng được. Đổi hook rồi sửa lại tiêu đề bên dưới nếu cần.</small>
+      </div>
+
+      <label>Tiêu đề:</label>
+      <textarea x-model="editForm.titleText" rows="2" placeholder="Nhập tiêu đề video..."></textarea>
+
+      <label>Phụ đề:</label>
+      <input type="text" x-model="editForm.subText" placeholder="Dòng phụ đề ngắn gọn...">
+
+      <template x-for="(tip, i) in editForm.tips" :key="i">
+        <div class="tip-editor">
+          <label>💡 Tip <span x-text="i+1"></span>:</label>
+          <input type="text" x-model="tip.label" placeholder="Nhãn (vd: Ưu điểm 1)">
+          <input type="text" x-model="tip.title" placeholder="Tiêu đề tip">
+          <input type="text" x-model="tip.desc" placeholder="Mô tả chi tiết (tùy chọn)">
+        </div>
+      </template>
+
+      <label>Kết thúc (Outro):</label>
+      <textarea x-model="editForm.outroText" rows="2" placeholder="Lời kêu gọi hành động cuối video..."></textarea>
+
+      <div class="actions">
+        <button class="btn-primary" @click="startRender()" :disabled="rendering">
+          <span x-text="rendering ? '⏳ Đang xử lý...' : '🎬 Tạo video'"></span>
+        </button>
+        <button class="btn-secondary" @click="selectedConfig = null" x-show="!rendering">Hủy</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Tab: MC Vy - mục RIÊNG, không dùng chung kịch bản với video lan -->
+  <main x-show="tab === 'mcvy'" class="container">
+    <h2>Video có MC Vy dẫn</h2>
+    <p class="detail">Mục này tách riêng khỏi video lan. MC Vy được tách nền xanh, phủ lên clip nền của bạn.</p>
+
+    <label>Tên video (không dấu, không cách):</label>
+    <input type="text" x-model="mc.slug" placeholder="vd: mcvy-gioithieu">
+
+    <!-- Chủ shop đã dặn: chỉ dùng MC Vy khi chọn đúng tuỳ chọn này -->
+    <div class="line-box">
+      <label class="check-row">
+        <input type="checkbox" x-model="mc.mcVy">
+        <span><strong>Dùng MC Vy</strong> — bỏ chọn thì chỉ có clip nền và chữ, không hiện người dẫn</span>
+      </label>
+
+      <div x-show="mc.mcVy">
+        <!-- Danh sách MC phải khai lại ở đây vì app.js là JS thuần, không đọc được
+             MC_OPTIONS trong McVyVideo.tsx. Thêm MC mới thì sửa cả hai chỗ. -->
+        <label>Chọn MC:</label>
+        <div class="line-chips">
+          <button :class="{ active: mc.mcId === 'vy' }" @click="mc.mcId = 'vy'">Vy (người thật)</button>
+          <button :class="{ active: mc.mcId === 'chibi' }" @click="mc.mcId = 'chibi'">Bé Na (hoạt hình)</button>
+        </div>
+
+        <!-- Chỉ MC clip mới có tư thế; MC ảnh đứng im nên ẩn mục này đi -->
+        <template x-if="mc.mcId === 'vy'">
+          <div>
+            <label>Dáng MC:</label>
+            <div class="line-chips">
+              <button :class="{ active: mc.mcPose === 'talking' }" @click="mc.mcPose = 'talking'">Đang nói</button>
+              <button :class="{ active: mc.mcPose === 'idle' }" @click="mc.mcPose = 'idle'">Đứng im</button>
+            </div>
+          </div>
+        </template>
+
+        <label>Vị trí đứng:</label>
+        <div class="line-chips">
+          <button :class="{ active: mc.mcSide === 'right' }" @click="mc.mcSide = 'right'">Bên phải</button>
+          <button :class="{ active: mc.mcSide === 'left' }" @click="mc.mcSide = 'left'">Bên trái</button>
+          <button :class="{ active: mc.mcSide === 'center' }" @click="mc.mcSide = 'center'">Giữa khung</button>
+        </div>
+
+        <label>Chiều cao MC: <span x-text="mc.mcHeight + '%'"></span> khung hình</label>
+        <input type="range" min="25" max="80" step="1" x-model.number="mc.mcHeight">
+      </div>
+    </div>
+
+    <!-- Clip nền lấy từ thư mục có sẵn trong public/ -->
+    <div class="line-box" x-show="footage.length">
+      <label>Clip nền lấy từ thư mục:</label>
+      <div class="line-chips">
+        <template x-for="f in footage" :key="f.slug">
+          <button :class="{ active: mc.sourceSlug === f.slug }"
+                  @click="mc.sourceSlug = (mc.sourceSlug === f.slug ? '' : f.slug)"
+                  x-text="f.slug"></button>
+        </template>
+      </div>
+      <small>Cần 6 file trong thư mục: title.mp4, tip1..tip4.mp4, outro.mp4. Bỏ trống thì phải tự tạo sẵn <code>public/clips_&lt;tên video&gt;/</code>.</small>
+    </div>
+
+    <h3>Lời thoại 6 cảnh</h3>
+    <small class="detail">Ô trên là câu MC đọc, ô dưới là chữ hiện trên khung (để trống thì không hiện chữ).</small>
+    <template x-for="(s, i) in mc.lines" :key="i">
+      <div class="tip-editor">
+        <label x-text="mcSceneLabel(i)"></label>
+        <textarea x-model="s.text" rows="2" placeholder="Câu MC Vy đọc..."></textarea>
+        <input type="text" x-model="s.caption" placeholder="Chữ hiện trên khung (tùy chọn)">
+      </div>
+    </template>
+
+    <div class="actions">
+      <button class="btn-primary" @click="mcRun()" :disabled="mc.busy">
+        <span x-text="mc.busy ? '⏳ Đang xử lý...' : '🎬 Tạo giọng đọc + dựng video'"></span>
+      </button>
+    </div>
+    <p class="error-box" x-show="mc.error" x-text="mc.error"></p>
+  </main>
+
+  <!-- Tab: 1 video + MC Vy - nhập 1 clip của mình, AI viết lời, MC Vy phủ lên -->
+  <main x-show="tab === 'single'" class="container">
+    <h2>Dựng từ 1 video của bạn</h2>
+    <p class="detail">Chỉ cần 1 clip nền. Clip ngắn thì app tự lặp lại cho đủ độ dài. AI viết lời, MC Vy nền xanh đứng nói phía trước.</p>
+
+    <label>1. Tên video (không dấu, không cách):</label>
+    <input type="text" x-model="sv.slug" placeholder="vd: clipcuatoi-1">
+
+    <label>2. Đường dẫn file video trên máy:</label>
+    <div class="ai-box">
+      <input type="text" x-model="sv.videoPath" placeholder="vd: D:\CLIP_LAN\hoanghau\a.mp4" @keydown.enter="svImport()">
+      <button class="btn-secondary" @click="svImport()" :disabled="sv.importing">
+        <span x-text="sv.importing ? '⏳ Đang nạp...' : '📥 Nạp clip'"></span>
+      </button>
+    </div>
+    <small x-show="sv.bgSeconds" class="ok">✅ Đã nạp clip nền, dài <span x-text="sv.bgSeconds"></span> giây.</small>
+    <small x-show="!sv.bgSeconds">Copy đường dẫn từ File Explorer (bấm chuột phải file → Copy as path) rồi dán vào đây.</small>
+
+    <!-- Ảnh phủ lên clip nền, để mờ cho vẫn thấy video gốc -->
+    <div class="line-box">
+      <label>Ảnh phủ lên video (tùy chọn):</label>
+      <div class="ai-box">
+        <input type="text" x-model="sv.overlayPath" placeholder="vd: D:\anh-nen.jpg" @keydown.enter="svOverlay()">
+        <button class="btn-secondary" @click="svOverlay()" :disabled="sv.ovlBusy">
+          <span x-text="sv.ovlBusy ? '⏳ Đang nạp...' : '🖼️ Nạp ảnh phủ'"></span>
+        </button>
+      </div>
+      <small x-show="sv.overlay" class="ok">✅ Đã nạp ảnh phủ.</small>
+      <div x-show="sv.overlay">
+        <label>Độ đục ảnh phủ: <span x-text="sv.overlayOpacity + '%'"></span> — càng nhỏ càng thấy rõ video gốc</label>
+        <input type="range" min="5" max="90" step="5" x-model.number="sv.overlayOpacity">
+        <button class="btn-secondary" @click="sv.overlay = ''; sv.overlayPath = ''">Bỏ ảnh phủ</button>
+      </div>
+    </div>
+
+    <label>3. Chủ đề để AI viết lời:</label>
+    <div class="ai-box">
+      <input type="text" x-model="sv.topic" placeholder="vd: giới thiệu chậu lan hoàng hậu đang ra hoa" @keydown.enter="svWrite()">
+      <button class="btn-primary" @click="svWrite()" :disabled="sv.aiBusy">
+        <span x-text="sv.aiBusy ? '⏳ AI đang viết...' : '✨ AI viết lời'"></span>
+      </button>
+    </div>
+    <div class="line-box">
+      <label>Số cảnh:</label>
+      <div class="line-chips">
+        <template x-for="n in [3,4,5,6]" :key="n">
+          <button :class="{ active: sv.count === n }" @click="sv.count = n" x-text="n + ' cảnh'"></button>
+        </template>
+      </div>
+      <input type="text" x-model="sv.note" placeholder="Yêu cầu riêng cho AI (tùy chọn), vd: nhắc giá 150k, nói kiểu thân mật">
+    </div>
+
+    <!-- Chỉ dùng MC Vy khi chọn đúng tuỳ chọn này -->
+    <div class="line-box">
+      <label class="check-row">
+        <input type="checkbox" x-model="sv.mcVy">
+        <span><strong>Dùng MC Vy</strong> — bỏ chọn thì chỉ có clip nền và chữ</span>
+      </label>
+      <div x-show="sv.mcVy">
+        <label>Chọn MC:</label>
+        <div class="line-chips">
+          <button :class="{ active: sv.mcId === 'vy' }" @click="sv.mcId = 'vy'">Vy (người thật)</button>
+          <button :class="{ active: sv.mcId === 'chibi' }" @click="sv.mcId = 'chibi'">Bé Na (hoạt hình)</button>
+        </div>
+        <template x-if="sv.mcId === 'vy'">
+          <div>
+            <label>Dáng MC:</label>
+            <div class="line-chips">
+              <button :class="{ active: sv.mcPose === 'talking' }" @click="sv.mcPose = 'talking'">Đang nói</button>
+              <button :class="{ active: sv.mcPose === 'idle' }" @click="sv.mcPose = 'idle'">Đứng im</button>
+            </div>
+          </div>
+        </template>
+        <label>Vị trí đứng:</label>
+        <div class="line-chips">
+          <button :class="{ active: sv.mcSide === 'right' }" @click="sv.mcSide = 'right'">Bên phải</button>
+          <button :class="{ active: sv.mcSide === 'left' }" @click="sv.mcSide = 'left'">Bên trái</button>
+          <button :class="{ active: sv.mcSide === 'center' }" @click="sv.mcSide = 'center'">Giữa khung</button>
+        </div>
+        <label>Chiều cao MC: <span x-text="sv.mcHeight + '%'"></span> khung hình</label>
+        <input type="range" min="25" max="80" step="1" x-model.number="sv.mcHeight">
+      </div>
+    </div>
+
+    <h3 x-show="sv.scenes.length">4. Lời thoại (sửa được hết)</h3>
+    <template x-for="(s, i) in sv.scenes" :key="i">
+      <div class="tip-editor">
+        <label x-text="svSceneLabel(i, sv.scenes.length)"></label>
+        <textarea x-model="s.text" rows="2" placeholder="Câu MC Vy đọc..."></textarea>
+        <input type="text" x-model="s.caption" placeholder="Chữ hiện trên khung (tùy chọn)">
+      </div>
+    </template>
+
+    <div class="actions" x-show="sv.scenes.length">
+      <button class="btn-primary" @click="svRun()" :disabled="sv.busy">
+        <span x-text="sv.busy ? '⏳ Đang xử lý...' : '🎬 Tạo giọng đọc + dựng video'"></span>
+      </button>
+    </div>
+    <p class="error-box" x-show="sv.error" x-text="sv.error"></p>
+  </main>
+
+  <!-- Tab: Processing -->
+  <main x-show="tab === 'processing'" class="container">
+    <h2>Đang xử lý</h2>
+    <div class="progress-container">
+      <div class="progress-bar" :style="'width: ' + progress + '%'"></div>
+    </div>
+    <p class="status-text" x-text="statusText"></p>
+    <p class="detail" x-text="progress + '%'"></p>
+    <div class="actions" x-show="statusText.includes('Lỗi')">
+      <button class="btn-secondary" @click="reset()">← Quay lại</button>
+    </div>
+  </main>
+
+  <!-- Tab: Preview -->
+  <main x-show="tab === 'preview'" class="container">
+    <h2>Xem trước & Tải xuống</h2>
+
+    <video controls x-show="outputUrl" :src="outputUrl" class="preview-video"></video>
+
+    <div class="video-info" x-show="outputUrl">
+      <p>✅ Video đã sẵn sàng!</p>
+    </div>
+
+    <!-- SOP slide 18: soát 10 mục trước khi đăng. Không chặn tải, chỉ nhắc. -->
+    <div class="checklist" x-show="outputUrl">
+      <h4>Soát trước khi đăng
+        <span class="check-count" x-text="checkedCount() + '/' + checklist.length"></span>
+      </h4>
+      <template x-for="(item, i) in checklist" :key="i">
+        <label class="check-row" :class="{ done: checks[i] }">
+          <input type="checkbox" x-model="checks[i]">
+          <span x-text="item"></span>
+        </label>
+      </template>
+      <small x-show="checkedCount() < checklist.length">Còn mục chưa soát. Đăng đều tay quan trọng hơn một video hoàn hảo, nhưng soát xong thì đỡ phải xoá bài.</small>
+      <small x-show="checkedCount() === checklist.length" class="ok">Đủ 10 mục. Đăng được rồi.</small>
+    </div>
+
+    <div class="actions" x-show="outputUrl">
+      <a :href="outputUrl" download class="btn-primary">⬇️ Tải video về máy</a>
+      <button class="btn-edit" @click="editCurrentVideo()">✏️ Chỉnh sửa lại</button>
+      <button class="btn-secondary" @click="reset()">🔄 Tạo video mới</button>
+    </div>
+
+    <div class="help-box">
+      <h4>💡 Không hài lòng với video?</h4>
+      <ul>
+        <li><strong>Chỉnh sửa lại:</strong> Nhấn nút "✏️ Chỉnh sửa lại" để quay về trang chỉnh sửa kịch bản. Sửa tiêu đề, tips, hoặc outro rồi nhấn "Tạo video" lần nữa.</li>
+        <li><strong>Thử kịch bản khác:</strong> Nhấn "🔄 Tạo video mới" để chọn template khác phù hợp hơn.</li>
+        <li><strong>Mẹo:</strong> Thử thay đổi giọng đọc bằng cách sửa nội dung text — giọng Minh Niệm sẽ đọc lại theo ý bạn.</li>
+      </ul>
+    </div>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
