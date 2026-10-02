@@ -1,0 +1,133 @@
+{
+  "v01_langoc": {
+    "slug": "langoc",
+    "voice": "n_hn_male_ngankechuyen_ytstable_vc",
+    "title": "5 GIỐNG LAN TIỀN TRIỆU ĐẸP NHẤT MÀ BẠN CHƯA BIẾT",
+    "clips": ["clips_lanhay27_giahacdo", "clips_lanhay28_hoangnhan", "clips_lanhay30_kimdiep", "clips_lanhay39_phidiepvang", "clips_lanhay43_ngocdiem"],
+    "vo_title": "Những giống lan này giá cả triệu một cây, mà nhiều người chơi lan lâu năm vẫn chưa từng thấy.",
+    "tips": [
+      {"label": "Giống 1", "text": "Giả hạc đỏ, hoa to màu đỏ rượu, cánh dày, nở là rực cả giàn."},
+      {"label": "Giống 2", "text": "Hoàng nhạn, hoa vàng chanh thơm nhẹ, dáng thân đứng rất sang."},
+      {"label": "Giống 3", "text": "Kim điệp, hoa vàng chùm dài, chơi được cả cây để nguyên bụi."},
+      {"label": "Giống 4", "text": "Phi điệp vàng, hoa to cánh dày, mùi thơm bay xa cả khu vườn."},
+      {"label": "Giống 5", "text": "Ngọc điểm, hoa trắng tím nở đúng Tết, mùi thơm đậm nhất trong các dòng lan."}
+    ],
+    "vo_outro": "Bạn đang trồng giống nào trong số này? Comment số thứ tự cho tôi biết nhé!"
+  },
+  "v02_khongrahoa": {
+    "slug": "khongrahoa10",
+    "voice": "n_hn_male_ngankechuyen_ytstable_vc",
+    "title": "VÌ SAO LAN NHÀ BẠN KHÔNG CHỊU RA HOA",
+    "clips": ["clips_khongrahoa", "clips_khongnohoa", "clips_rahoa"],
+    "vo_title": "Cây xanh tốt, lá sum suê, mà sao mãi không thấy lan ra hoa, bạn có biết lý do thật không?",
+    "tips": [
+      {"label": "Nguyên nhân 1", "text": "Bón quá nhiều đạm khiến cây chỉ lo phát triển lá, quên luôn việc ra hoa."},
+      {"label": "Nguyên nhân 2", "text": "Thiếu chênh lệch nhiệt độ ngày đêm, cây không phân hóa được mầm hoa."},
+      {"label": "Nguyên nhân 3", "text": "Để cây trong chỗ rợp quanh năm, ánh sáng không đủ để kích mầm hoa."}
+    ],
+    "vo_outro": "Cây nhà bạn đang bị đúng lỗi nào? Comment cho tôi biết để cùng sửa nhé!"
+  },
+  "v03_thoinhun": {
+    "slug": "thoinhun10",
+    "voice": "n_hn_male_ngankechuyen_ytstable_vc",
+    "title": "THỐI NHŨN CHỈ SAU MỘT ĐÊM - CỨU ĐƯỢC KHÔNG",
+    "clips": ["clips_tribenh", "clips_virus", "clips_tulieutribenh"],
+    "vo_title": "Sáng ra thấy gốc lan mềm nhũn, đen thâm một vùng, nhiều người tưởng là hết thuốc cứu rồi.",
+    "tips": [
+      {"label": "Bước 1", "text": "Cắt bỏ ngay phần thối bằng dao đã khử trùng, cắt rộng ra phần lành."},
+      {"label": "Bước 2", "text": "Rửa vết cắt bằng dung dịch sát khuẩn, để khô tự nhiên nơi thoáng gió."},
+      {"label": "Bước 3", "text": "Ngừng tưới nước vài ngày, chỉ phun thuốc trị nấm khuẩn vào đúng vết cắt."}
+    ],
+    "vo_outro": "Cây bạn từng bị thối nhũn chưa? Comment chia sẻ cách bạn đã cứu nhé!"
+  },
+  "v04_meovogao": {
+    "slug": "meodangian10",
+    "voice": "n_hn_male_ngankechuyen_ytstable_vc",
+    "title": "3 MẸO TƯỚI NƯỚC DÂN GIAN RẺ HƠN PHÂN BÓN",
+    "clips": ["clips_vogao", "clips_nuocvoi", "clips_nuocdua"],
+    "vo_title": "Không cần mua phân bón đắt tiền, trong nhà bạn đang có sẵn ba thứ giúp lan ra hoa đều.",
+    "tips": [
+      {"label": "Mẹo 1", "text": "Nước vo gạo để lắng rồi tưới, cung cấp vi lượng giúp rễ phát triển khỏe."},
+      {"label": "Mẹo 2", "text": "Nước vôi trong pha loãng, tưới định kỳ giúp khử khuẩn giá thể hiệu quả."},
+      {"label": "Mẹo 3", "text": "Nước dừa già pha loãng, kích thích ra rễ và chồi non rất tốt cho lan yếu."}
+    ],
+    "vo_outro": "Bạn đã thử mẹo nào trong ba cách này? Comment cho tôi biết kết quả nhé!"
+  },
+  "v05_tuoibia": {
+    "slug": "tuoibiathu10",
+    "voice": "n_hn_male_ngankechuyen_ytstable_vc",
+    "title": "THỬ NGHIỆM TƯỚI BIA VÀ TƯỚI NƯỚC THƯỜNG SAU BẢY NGÀY",
+    "clips": ["clips_tuoibia", "clips_tuoinuoc"],
+    "vo_title": "Tôi chia hai nhánh lan giống nhau, một bên tưới bia pha loãng, một bên tưới nước thường, sau bảy ngày kết quả thế nào?",
+    "tips": [
+      {"label": "Cây A", "text": "Nhánh tưới nước thường, rễ phát triển bình thường, lá giữ màu xanh ổn định."},
+      {"label": "Sau 7 ngày", "text": "Nhánh tưới bia pha loãng, rễ ra nhanh hơn rõ rệt, lá bóng và cứng cáp hơn."}
+    ],
+    "vo_outro": "Bạn có muốn tôi thử nghiệm thêm cách nào khác? Comment ngay cho tôi biết!"
+  },
+  "v06_bonphanssi": {
+    "slug": "saibonphan10",
+    "voice": "n_hn_male_ngankechuyen_ytstable_vc",
+    "title": "SAI LẦM KHI BÓN PHÂN KHIẾN LAN CHẾT DẦN",
+    "clips": ["clips_evgsai", "clips_sailam", "clips_sailamchuoi"],
+    "vo_title": "Bón phân tưởng là tốt cho cây, nhưng ba sai lầm này đang âm thầm làm lan của bạn yếu đi mỗi ngày.",
+    "tips": [
+      {"label": "Lỗi 1", "text": "Bón phân khi giá thể còn khô, phân đậm đặc làm cháy rễ ngay lập tức."},
+      {"label": "Lỗi 2", "text": "Bón quá liều vì nghĩ nhiều phân cây lớn nhanh, kết quả ngược lại là úa lá."},
+      {"label": "Lỗi 3", "text": "Bón sát gốc thân thay vì vùng rễ, khiến gốc cây bị nóng và thối dần."}
+    ],
+    "vo_outro": "Bạn có đang mắc lỗi nào trong ba lỗi này không? Comment thật cho tôi biết nhé!"
+  },
+  "v07_pov_tuanmoi": {
+    "slug": "tuandautien10",
+    "voice": "n_hn_male_ngankechuyen_ytstable_vc",
+    "title": "TUẦN ĐẦU TIÊN MÌNH NUÔI LAN RỪNG",
+    "clips": ["clips_thuanrung", "clips_trongmoi", "clips_giathe"],
+    "vo_title": "Lần đầu mang về một giò lan rừng, mình đã lo lắng không biết chăm thế nào cho đúng.",
+    "tips": [
+      {"label": "Tuần 1", "text": "Mình để cây nơi mát, chưa bón gì, chỉ phun ẩm nhẹ cho rễ quen giá thể mới."},
+      {"label": "Tuần 2", "text": "Mình bắt đầu ghép lại giá thể thoáng hơn, rễ lan rừng rất sợ ẩm ứ nước."},
+      {"label": "Tuần 3", "text": "Mình thấy rễ non đầu tiên nhú lên, mừng như lần đầu nuôi cây có hoa."}
+    ],
+    "vo_outro": "Bạn còn nhớ cảm giác tuần đầu nuôi lan của mình không? Kể cho mình nghe nhé!"
+  },
+  "v08_contrung": {
+    "slug": "nhandiensau10",
+    "voice": "n_hn_male_ngankechuyen_ytstable_vc",
+    "title": "NHỆN ĐỎ, RỆP SÁP, BỌ TRĨ - PHÂN BIỆT TRONG MƯỜI LĂM GIÂY",
+    "clips": ["clips_nhendo", "clips_repsap", "clips_botri"],
+    "vo_title": "Lá lan có đốm lạ, nhưng không phải sâu bệnh nào cũng chữa giống nhau, phân biệt sai là trị sai thuốc.",
+    "tips": [
+      {"label": "Dấu hiệu 1", "text": "Nhện đỏ làm lá có chấm trắng nhỏ như rắc bụi, mặt dưới lá có mạng tơ mảnh."},
+      {"label": "Dấu hiệu 2", "text": "Rệp sáp bám thành cụm trắng như bông ở nách lá và gốc thân cây."},
+      {"label": "Dấu hiệu 3", "text": "Bọ trĩ làm lá non xoăn lại, mép lá cháy khô viền nâu bất thường."}
+    ],
+    "vo_outro": "Lan nhà bạn đang gặp dấu hiệu nào trong ba loại này? Comment để mình xem giúp!"
+  },
+  "v09_hoanghau": {
+    "slug": "hoanghaugioithieu10",
+    "voice": "n_hn_male_ngankechuyen_ytstable_vc",
+    "title": "HOÀNG HẬU - GIỐNG LAN QUÝ TỘC, CHĂM SAO CHO ĐÚNG",
+    "clips": ["clips_hoanghau", "clips_hoanghau-that"],
+    "vo_title": "Hoàng hậu là giống lan được giới chơi lan ví như nữ hoàng của các loài lan rừng Việt Nam.",
+    "tips": [
+      {"label": "Đặc điểm", "text": "Hoa to, cánh dày, màu sắc rực mà vẫn giữ nét sang trọng tự nhiên."},
+      {"label": "Cách chăm", "text": "Cần ánh sáng mạnh buổi sáng, giá thể thoáng, tưới vừa đủ không để úng."},
+      {"label": "Lưu ý", "text": "Mùa nghỉ phải giảm hẳn nước, ép khô mới kích được hoa đều mỗi năm."}
+    ],
+    "vo_outro": "Bạn thấy giống hoàng hậu này đẹp chứ? Comment cho mình biết cảm nhận nhé!"
+  },
+  "v10_tachchiet": {
+    "slug": "tachchiet10",
+    "voice": "n_hn_male_ngankechuyen_ytstable_vc",
+    "title": "CÁCH CHIẾT LAN KHÔNG CHẾT CÂY MẸ",
+    "clips": ["clips_tachchiet"],
+    "vo_title": "Nhiều người tách lan xong là cây mẹ suy luôn, chỉ vì làm sai một bước rất nhỏ.",
+    "tips": [
+      {"label": "Tay 1", "text": "Chọn nhánh có ít nhất ba mắt ngủ khỏe, không tách nhánh còn quá non."},
+      {"label": "Tay 2", "text": "Dùng dao sắc đã khử trùng, cắt một lần dứt khoát, không cắt đi cắt lại."},
+      {"label": "Tay 3", "text": "Bôi keo liền sẹo ngay vết cắt trên cả cây mẹ và nhánh mới tách."}
+    ],
+    "vo_outro": "Bạn đã từng tách lan bị suy cây chưa? Comment kể mình nghe nhé!"
+  }
+}

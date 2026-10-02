@@ -190,6 +190,26 @@ import { Kho276, KHO276_TOTAL_FRAMES } from "./Kho276";
 import { Kho277, KHO277_TOTAL_FRAMES } from "./Kho277";
 import { Kho278, KHO278_TOTAL_FRAMES } from "./Kho278";
 import { NgamHoa279, NGAMHOA279_TOTAL_FRAMES } from "./NgamHoa279";
+import { OrchidKhongRaHoa10, KHONGRAHOA10_TOTAL_FRAMES } from "./OrchidKhongRaHoa10";
+import { OrchidThoiNhun10, THOINHUN10_TOTAL_FRAMES } from "./OrchidThoiNhun10";
+import { OrchidMeoDanGian10, MEODANGIAN10_TOTAL_FRAMES } from "./OrchidMeoDanGian10";
+import { OrchidTuoiBiaThu10, TUOIBIATHU10_TOTAL_FRAMES } from "./OrchidTuoiBiaThu10";
+import { OrchidSaiBonPhan10, SAIBONPHAN10_TOTAL_FRAMES } from "./OrchidSaiBonPhan10";
+import { OrchidTuanDauTien10, TUANDAUTIEN10_TOTAL_FRAMES } from "./OrchidTuanDauTien10";
+import { OrchidNhanDienSau10, NHANDIENSAU10_TOTAL_FRAMES } from "./OrchidNhanDienSau10";
+import { OrchidHoangHauGioiThieu10, HOANGHAUGIOITHIEU10_TOTAL_FRAMES } from "./OrchidHoangHauGioiThieu10";
+import { OrchidTachChiet10, TACHCHIET10_TOTAL_FRAMES } from "./OrchidTachChiet10";
+import { OrchidLanGoc10, LANGOC10_TOTAL_FRAMES } from "./OrchidLanGoc10";
+import { OrchidLanHiem11, LANHIEM11_TOTAL_FRAMES } from "./OrchidLanHiem11";
+import { OrchidLanDocDao12, LANDOCDAO12_TOTAL_FRAMES } from "./OrchidLanDocDao12";
+import { OrchidLanQuyToc13, LANQUYTOC13_TOTAL_FRAMES } from "./OrchidLanQuyToc13";
+import { OrchidLanTienTrieu14, LANTIENTRIEU14_TOTAL_FRAMES } from "./OrchidLanTienTrieu14";
+import { OrchidDotBien15, DOTBIEN15_TOTAL_FRAMES } from "./OrchidDotBien15";
+import { OrchidHoiSinh16, HOISINH16_TOTAL_FRAMES } from "./OrchidHoiSinh16";
+import { OrchidKhongNoHoa17, KHONGNOHOA17_TOTAL_FRAMES } from "./OrchidKhongNoHoa17";
+import { OrchidDauHieuCuu18, DAUHIEUCUU18_TOTAL_FRAMES } from "./OrchidDauHieuCuu18";
+import { OrchidNamTrang19, NAMTRANG19_TOTAL_FRAMES } from "./OrchidNamTrang19";
+import { OrchidNhinRe20, NHINRE20_TOTAL_FRAMES } from "./OrchidNhinRe20";
 
 const NHADAM_SERIES = CONFIGS.map((cfg) => ({
   id: cfg.slug,
@@ -1691,7 +1711,168 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1080}
         height={1920}
-      />      {NHADAM_SERIES.map((v) => (
+      />
+      <Composition
+        id="OrchidKhongRaHoa10"
+        component={OrchidKhongRaHoa10}
+        durationInFrames={KHONGRAHOA10_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="OrchidThoiNhun10"
+        component={OrchidThoiNhun10}
+        durationInFrames={THOINHUN10_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="OrchidMeoDanGian10"
+        component={OrchidMeoDanGian10}
+        durationInFrames={MEODANGIAN10_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="OrchidTuoiBiaThu10"
+        component={OrchidTuoiBiaThu10}
+        durationInFrames={TUOIBIATHU10_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="OrchidSaiBonPhan10"
+        component={OrchidSaiBonPhan10}
+        durationInFrames={SAIBONPHAN10_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="OrchidTuanDauTien10"
+        component={OrchidTuanDauTien10}
+        durationInFrames={TUANDAUTIEN10_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="OrchidNhanDienSau10"
+        component={OrchidNhanDienSau10}
+        durationInFrames={NHANDIENSAU10_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="OrchidHoangHauGioiThieu10"
+        component={OrchidHoangHauGioiThieu10}
+        durationInFrames={HOANGHAUGIOITHIEU10_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="OrchidLanGoc10"
+        component={OrchidLanGoc10}
+        durationInFrames={LANGOC10_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="OrchidTachChiet10"
+        component={OrchidTachChiet10}
+        durationInFrames={TACHCHIET10_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="OrchidLanHiem11"
+        component={OrchidLanHiem11}
+        durationInFrames={LANHIEM11_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="OrchidLanDocDao12"
+        component={OrchidLanDocDao12}
+        durationInFrames={LANDOCDAO12_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="OrchidLanQuyToc13"
+        component={OrchidLanQuyToc13}
+        durationInFrames={LANQUYTOC13_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="OrchidLanTienTrieu14"
+        component={OrchidLanTienTrieu14}
+        durationInFrames={LANTIENTRIEU14_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="OrchidDotBien15"
+        component={OrchidDotBien15}
+        durationInFrames={DOTBIEN15_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="OrchidHoiSinh16"
+        component={OrchidHoiSinh16}
+        durationInFrames={HOISINH16_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="OrchidKhongNoHoa17"
+        component={OrchidKhongNoHoa17}
+        durationInFrames={KHONGNOHOA17_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="OrchidDauHieuCuu18"
+        component={OrchidDauHieuCuu18}
+        durationInFrames={DAUHIEUCUU18_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="OrchidNamTrang19"
+        component={OrchidNamTrang19}
+        durationInFrames={NAMTRANG19_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="OrchidNhinRe20"
+        component={OrchidNhinRe20}
+        durationInFrames={NHINRE20_TOTAL_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+      {NHADAM_SERIES.map((v) => (
         <Composition
           key={v.id}
           id={v.id}
